@@ -2,12 +2,13 @@ import UIKit
 
 class FoodsViewController: UIViewController {
     
-    typealias DataSource = NSDiffableDataSourceSnapshot<Section,Category>
+    typealias DataSource = UICollectionViewDiffableDataSource<Section,Category>
     typealias DataSourceSnapshot = NSDiffableDataSourceSnapshot<Section,Category>
     let foodsCollectionView = UICollectionView(frame: .zero,
                                                collectionViewLayout: UICollectionViewLayout())
     var foodList : [TypeFood] = DataDummy().getTypeFood()
-    
+    var dataSource: DataSource!
+    var snapshot = DataSourceSnapshot()
     
     override func viewDidLoad() {
         super.viewDidLoad()
