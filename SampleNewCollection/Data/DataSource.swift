@@ -4,7 +4,6 @@ import UIKit
 struct DataSource {
     
     func getTypeFood() -> [TypeFood] {
-        var typeList : [TypeFood] = []
         let typeFruit = TypeFood(idType: 1, nameType: "Frutas", imgType: UIImage(imageLiteralResourceName:"frutas.jpg"), descriptionType: "Energia 60 Kcal,Proteina: 0g,Lipidos 0g, Carbohidratos: 15g")
         let typeVegetables = TypeFood(idType: 2, nameType: "Verduras", imgType: UIImage(imageLiteralResourceName:"verduras.jpg"), descriptionType: "Energia 25 Kcal,Proteina: 2g,Lipidos 0g, Carbohidratos: 4g")
         let typeCereal = TypeFood(idType: 3, nameType: "Cereales", imgType : UIImage(imageLiteralResourceName:"cereales.jpg"), descriptionType: "Energia 70 Kcal,Proteina: 2g,Lipidos 0g, Carbohidratos: 15g")
@@ -17,7 +16,7 @@ struct DataSource {
         let typeSugar = TypeFood(idType:10,nameType:"Azùcares",imgType:UIImage(imageLiteralResourceName:"azucares.jpg"), descriptionType: "Energia 40 Kcal,Proteina: 0g,Lipidos 0g, Carbohidratos: 10g")
         let typeFatSugar = TypeFood(idType:11,nameType:"Azùcares con grasa",imgType:UIImage(imageLiteralResourceName:"azucaresgrasa.jpg"), descriptionType: "Energia 85 Kcal,Proteina: 0g,Lipidos 5g, Carbohidratos: 10g")
         let typeFree = TypeFood(idType:12,nameType:"Alimentos libres",imgType:UIImage(imageLiteralResourceName:"libres.jpg"), descriptionType: "Energia 40 Kcal,Proteina: 0g,Lipidos 0g, Carbohidratos: 10g")
-        typeList = [typeFruit,typeVegetables,typeCereal,typeFatCereal,typeAnimalOrigin,typeMilk,typeLegume,typeFat,typeProteinFat,typeSugar,typeFatSugar,typeFree]
+        let typeList : [TypeFood] = [typeFruit,typeVegetables,typeCereal,typeFatCereal,typeAnimalOrigin,typeMilk,typeLegume,typeFat,typeProteinFat,typeSugar,typeFatSugar,typeFree]
         return typeList
     }
 }

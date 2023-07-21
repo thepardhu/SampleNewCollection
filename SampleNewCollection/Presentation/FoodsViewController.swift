@@ -3,17 +3,35 @@ import UIKit
 class FoodsViewController: UIViewController {
     let foodsCollectionView = UICollectionView(frame: .zero,
                                                collectionViewLayout: UICollectionViewLayout())
-    var foodList : [TypeFood] = []
+    var foodList : [TypeFood] = DataSource().getTypeFood()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        foodsCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "default")
-        foodsCollectionView.delegate = self
-        foodsCollectionView.dataSource = self
-        foodList = DataSource().getTypeFood()
+        let layoutGuide = view.safeAreaLayoutGuide
+        view.addSubview(foodsCollectionView)
+        configureCategoriesCollectionView(layoutGuide)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         foodsCollectionView.reloadData()
     }
     
+    private func configureCategoriesCollectionView(_ layoutGuide: UILayoutGuide) {
+        foodsCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        foodsCollectionView.register(FoodItemCell.self, forCellWithReuseIdentifier: "FoodItemCell")
+        foodsCollectionView.layout?.scrollDirection = .vertical
+        foodsCollectionView.layout?.itemSize = CGSize(width: 50, height: 50)
+        foodsCollectionView.setCollectionViewLayout(foodsCollectionView.layout ?? UICollectionViewFlowLayout(), animated: false)
+        foodsCollectionView.delegate = self
+        foodsCollectionView.dataSource = self
+        
+        NSLayoutConstraint.activate([
+            foodsCollectionView.topAnchor.constraint(equalTo: layoutGuide.topAnchor),
+            foodsCollectionView.bottomAnchor.constraint(equalTo: layoutGuide.bottomAnchor),
+            foodsCollectionView.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor),
+            foodsCollectionView.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor),
+        ])
+    }
 }
 
 extension FoodsViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
@@ -55,11 +73,13 @@ extension FoodsViewController : UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return foodList.count
+        foodList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "default", for: indexPath)
+        let cell: FoodItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "FoodItemCell", for: indexPath) as! FoodItemCell
+        let foodItem = foodList[indexPath.row]
+        cell.bind(foodItem)
         return cell
     }
     
