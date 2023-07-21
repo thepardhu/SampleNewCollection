@@ -2,8 +2,8 @@ import UIKit
 
 class FoodsViewController: UIViewController {
     
-    typealias DataSource = UICollectionViewDiffableDataSource<Section,Category>
-    typealias DataSourceSnapshot = NSDiffableDataSourceSnapshot<Section,Category>
+    typealias DataSource = UICollectionViewDiffableDataSource<Section,TypeFood>
+    typealias DataSourceSnapshot = NSDiffableDataSourceSnapshot<Section,TypeFood>
     let foodsCollectionView = UICollectionView(frame: .zero,
                                                collectionViewLayout: UICollectionViewLayout())
     var foodList : [TypeFood] = DataDummy().getTypeFood()
@@ -28,7 +28,6 @@ class FoodsViewController: UIViewController {
         foodsCollectionView.layout?.itemSize = CGSize(width: 50, height: 50)
         foodsCollectionView.setCollectionViewLayout(foodsCollectionView.layout ?? UICollectionViewFlowLayout(), animated: false)
         foodsCollectionView.delegate = self
-        foodsCollectionView.dataSource = self
         
         NSLayoutConstraint.activate([
             foodsCollectionView.topAnchor.constraint(equalTo: layoutGuide.topAnchor),
@@ -39,7 +38,7 @@ class FoodsViewController: UIViewController {
     }
 }
 
-extension FoodsViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+extension FoodsViewController : UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -80,12 +79,20 @@ extension FoodsViewController : UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         foodList.count
     }
+}
+
+extension FoodsViewController {
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: FoodItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "FoodItemCell", for: indexPath) as! FoodItemCell
-        let foodItem = foodList[indexPath.row]
-        cell.bind(foodItem)
-        return cell
+    private func configureCollectionDataSource() {
+        dataSource = DataSource(
+           collectionView: foodsCollectionView,
+           cellProvider: { (collectionView, indexPath, food) ->
+             UICollectionViewCell? in
+             let cell = collectionView.dequeueReusableCell(
+               withReuseIdentifier: "FoodItemCell",
+               for: indexPath) as? FoodItemCell
+               cell?.bind(food)
+             return cell
+         })
     }
-    
 }
