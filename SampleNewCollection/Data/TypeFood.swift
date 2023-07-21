@@ -8,3 +8,6 @@ struct TypeFood {
     let descriptionType : String
 }
 
+extension TypeFood: Hashable {
+    
+}
