@@ -8,17 +8,15 @@ class FoodsViewController: UIViewController {
                                                collectionViewLayout: UICollectionViewLayout())
     var foodList : [TypeFood] = DataDummy().getTypeFood()
     var dataSource: DataSource!
-    var snapshot = DataSourceSnapshot()
+    var snapshot: DataSourceSnapshot!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         let layoutGuide = view.safeAreaLayoutGuide
         view.addSubview(foodsCollectionView)
         configureCategoriesCollectionView(layoutGuide)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        foodsCollectionView.reloadData()
+        configureCollectionDataSource()
+        applySnapshot(foodList)
     }
     
     private func configureCategoriesCollectionView(_ layoutGuide: UILayoutGuide) {
@@ -42,26 +40,6 @@ extension FoodsViewController : UICollectionViewDelegate, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
-                        insetForSectionAt section: Int) -> UIEdgeInsets {
-      
-        return UIEdgeInsets.zero
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-    
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         let noOfCellsInRow = 2
         let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
@@ -74,10 +52,6 @@ extension FoodsViewController : UICollectionViewDelegate, UICollectionViewDelega
 
         return CGSize(width: size, height: size)
      
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        foodList.count
     }
 }
 
@@ -94,5 +68,12 @@ extension FoodsViewController {
                cell?.bind(food)
              return cell
          })
+    }
+    
+    private func applySnapshot(_ foodList : [TypeFood]) {
+        snapshot = DataSourceSnapshot()
+        snapshot.appendSections([Section.main])
+        snapshot.appendItems(foodList)
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
