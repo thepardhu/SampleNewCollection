@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-struct DataSource {
+struct DataDummy {
     
     func getTypeFood() -> [TypeFood] {
         let typeFruit = TypeFood(idType: 1, nameType: "Frutas", imgType: UIImage(imageLiteralResourceName:"frutas.jpg"), descriptionType: "Energia 60 Kcal,Proteina: 0g,Lipidos 0g, Carbohidratos: 15g")
