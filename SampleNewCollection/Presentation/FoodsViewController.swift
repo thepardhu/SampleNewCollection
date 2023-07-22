@@ -36,7 +36,7 @@ class FoodsViewController: UIViewController {
     }
 }
 
-extension FoodsViewController : UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
+extension FoodsViewController : UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
